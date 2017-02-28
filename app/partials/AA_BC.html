@@ -1,0 +1,206 @@
+<script type="text/ng-template" id="customTemplate.html">
+    <a>
+        <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+        <span class="alliant-list-title" bind-html-unsafe="' - ' + (match.model.Title1 | typeaheadHighlight:query)"></span>
+    </a>
+</script>
+<section class="specform-default">
+    <!-- BREADCRUMB!-->
+    <productnav editvariant="true" product="Product" variant="Variant" />
+    <!-- SPEC FORM IMAGE PANEL!-->
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- SPEC FORM PANEL! --->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span ng-show="Variant.PreviewUrl">Edit </span>{{Variant.ExternalID || 'Create New'}}</h3>
+                </div>
+                <form name="AlliantBCform">
+                    <div class="panel-body">
+                        <loadingindicator ng-show="variantSaveLoading" title="Generating business card..."></loadingindicator>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-5">
+                                <div class="view-form-icon">
+                                    <div>
+                                        <label>Start typing to find available employees:</label>
+                                        <input placeholder="Start typing to find available employees" type="text" class="form-control"
+                                               ng-model="choice"
+                                               typeahead="person as person.Name for person in alliantNames | filter:$viewValue | limitTo:8"
+                                               typeahead-template-url="customTemplate.html"
+                                               typeahead-editable="false" required="true" />
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <div ng-show="choice.Name">
+                                    <div class="view-form-icon" ng-if="Variant.Specs.V02_Credentials">
+                                        <div>
+                                            <label>Credentials:</label>
+                                            <input placeholder="Credentials" type="text" ng-model="Variant.Specs.V02_Credentials.Value" class="form-control">
+                                            <i class="fa fa-font"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon" ng-if="Variant.Specs.V04a_Group">
+                                        <div>
+                                            <label>Department:</label>
+                                            <select ng-model="Variant.Specs.V04a_Group.Value" ng-options="option.Name as option.Name for option in tree[0].SubCategories[0].SubCategories[0].SubCategories" class="form-control"></select>
+                                            <i class="fa fa-caret-down"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon" ng-if="Variant.Specs.V05_Direct">
+                                        <div>
+                                            <label>Direct:</label>
+                                            <input type="tel" ng-model="Variant.Specs.V05_Direct.Value" class="form-control" ui-mask="999 999 9999">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon" ng-if="Variant.Specs.V06_Cell">
+                                        <div>
+                                            <label>Cell:</label>
+                                            <input type="tel" ng-model="Variant.Specs.V06_Cell.Value" class="form-control" ui-mask="999 999 9999">
+                                            <i class="fa fa-mobile-phone"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon" ng-if="Variant.Specs.V07_Office">
+                                        <div>
+                                            <label>Office:</label>
+                                            <input type="tel" ng-model="Variant.Specs.V07_Office.Value" class="form-control" ui-mask="999 999 9999">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon" ng-if="Variant.Specs.V08_TollFree">
+                                        <div>
+                                            <label>Toll Free:</label>
+                                            <input type="tel" ng-model="Variant.Specs.V08_TollFree.Value" class="form-control" ui-mask="999 999 9999">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+                                    </div>
+                                    <div class="view-form-icon" ng-if="Variant.Specs.V09_Fax">
+                                        <div>
+                                            <label>Fax:</label>
+                                            <input type="tel" ng-model="Variant.Specs.V09_Fax.Value" class="form-control" ui-mask="999 999 9999">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-7">
+                                <div ng-init="OverrideName = false;" class="well well-sm alliantBC-details" ng-show="choice.Name">
+                                    <div class="btn btn-sm pull-right" ng-click="OverrideName = true;" ng-class="{'btn-success':OverrideName,'btn-default':!OverrideName}">
+                                        <i class="fa" ng-class="{'fa-edit':!OverrideName, 'fa-check':OverrideName}"></i> Preferred Name
+                                    </div>
+                                    <p class="text-muted"><b>Personel Details:</b></p>
+                                    <hr/>
+                                    <div class="row" class="alliantBC-title-row">
+                                        <div class="col-sm-4">
+                                            <p>
+                                                <b>Name:</b>
+                                            </p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p class="text-info" ng-show="!OverrideName">
+                                                {{choice.Name}}
+                                            </p>
+                                            <div ng-show="OverrideName">
+                                                <div class="row">
+                                                    <div class="col-xs-8">
+                                                        <input class="form-control preferred-name-input" type="text" ng-model="Variant.PreferredName" placeholder="Preferred Name">
+                                                        <i class="fa fa-times text-danger" ng-click="Variant.PreferredName = null; OverrideName = false;"></i>
+                                                    </div>
+                                                    <div class="col-xs-4 text-info" style="padding-top:10px;">
+                                                        {{choice.Name.split(' ')[(choice.Name.split(' ').length - 1)]}}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="choice.Title1">
+                                        <div class="col-sm-4">
+                                            <p><small><b>Title 1:</b></small>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p><small class="text-info">{{choice.Title1}}</small></p>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="choice.Title2">
+                                        <div class="col-sm-4">
+                                            <p><small><b>Title 2:</b></small></p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p><small class="text-info">{{choice.Title2}}</small></p>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="choice.Group">
+                                        <div class="col-sm-4">
+                                            <p>
+                                                <small><b>Group:</b></small>
+                                            </p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p><small class="text-info">{{choice.Group}}</small></p>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="choice.Location">
+                                        <div class="col-sm-4">
+                                            <p><small><b>Location:</b></small></p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p><small class="text-info">{{choice.Location}}</small></p>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="choice.Email">
+                                        <div class="col-sm-4">
+                                            <p><small><b>Email:</b></small></p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p><small class="text-info">{{choice.Email}}</small></p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="btn-group" ng-if="choice.Title2">
+                                    <label class="btn btn-primary" ng-model="Variant.TitleChoice" btn-radio="'Title1'">Use Title 1</label>
+                                    <label class="btn btn-primary" ng-model="Variant.TitleChoice" btn-radio="'Title2'">Use Title 2</label>
+                                    <label class="btn btn-primary" ng-model="Variant.TitleChoice" btn-radio="'Both'">Use Both</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-footer">
+                        <button ng-show="Variant.InteropID" class="btn btn-default" type="button" ng-disabled="AlliantBCform.$invalid" ng-click="saveasnew(true)"><i ng-show="AlliantBCform.$invalid" class="fa fa-warning"> </i>Save As New</button>
+                        <button class="btn btn-primary pull-right" type="submit"
+                                ng-disabled="AlliantBCform.$invalid"
+                                ng-click="save(true)"><i ng-show="AlliantBCform.$invalid" class="fa fa-warning"> </i>Save</button>
+                    </div>
+                </form>
+
+
+                <div class="navbar-fixed-bottom">
+                    <div class="view-error-message" ng-show="showVariantErrors && variantErrors.length">
+                        <ul class="alert-warning">
+                            <li class="text-center">
+                                <span class="badge">
+                                    <i class="fa fa-exclamation-circle fa-inverse"></i>
+                                    {{variantErrors.length}}
+                                </span>
+                            </li>
+                            <li class="text-center">
+                                <ul ng-class="{'one': errorSection == 'open', 'two': errorSection == '' }">
+                                    <li class="alert-warning" ng-repeat="e in variantErrors">{{e}}</li>
+                                </ul>
+                            </li>
+                            <li class="text-center">
+                                <a ng-show="variantErrors.length > 1">
+                                    <i class="fa fa-caret-down" ng-click="errorSection = 'open'" ng-hide="errorSection == 'open'"></i>
+                                    <i class="fa fa-caret-up" ng-click="errorSection = ''" ng-show="errorSection == 'open'"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

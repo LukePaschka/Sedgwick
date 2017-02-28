@@ -1,0 +1,65 @@
+<section>
+    <div class="main-right col-sm-8 col-sm-push-4">
+        <div class="landing-page" ng-show="isActive('catalog')">
+            <div class="row">
+                <div class="col-sm-5 col-collapse hidden-xs">
+                    <figure>
+                        <img style="max-width: 100%;" src="css/images/Image_landingpage.jpg"/>
+                    </figure>
+                </div>
+                <div class="col-sm-7 col-collapse">
+                    <div class="landing-page-copy">
+                        <h3>Alliant Stationery Items</h3>
+                        <p>The Alliant Store makes ordering fast and easy. Simply browse our inventory of items, customize your order, and save valuable time in the process.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="currentCategory">
+            <h3 class="text-center" style="margin-top:0;">{{currentCategory.Name}}</h3>
+        </div>
+        <!--<categorylistview></categorylistview>-->
+        <productlistview></productlistview>
+
+    </div>
+    <aside class="main-left col-sm-4 col-sm-pull-8">
+        <div class="alliant-tree">
+            <div ng-repeat="node in alliantTree">
+                <p class="group">{{node.Name}}</p>
+                <div ng-repeat="group in node.SubCategories">
+                    <p class="insert" ng-show="group.Name">{{group.Name}}</p>
+                    <div ng-repeat="subgroup in group.SubCategories" class="alliant-node" ng-init="nodeActive = false" ng-class="{'activeNode': nodeActive}" ng-click="nodeActive = !nodeActive">
+                        <p ng-show="subgroup.SubCategories.length > 0">{{subgroup.Name}}</p>
+                        <a ng-href="catalog/{{subgroup.InteropID}}" ng-show="subgroup.SubCategories.length == 0">{{subgroup.Name}}</a>
+                        <ul class="alliant-node-categories">
+                            <li ng-repeat="item in subgroup.SubCategories">
+                                <a ng-href="catalog/{{item.InteropID}}">{{item.Name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--<p class="group">Stationery Items</p>
+            <p class="insert">Operating Groups</p>
+            <div class="alliant-node">
+                <p>Node Name</p>
+                <ul class="alliant-node-categories">
+                    <li>test</li>
+                    <li>test</li>
+                    <li>test</li>
+                </ul>
+            </div>
+            <p class="insert">Corporate Groups</p>
+            <div class="alliant-node">
+                <p>Node Name 2</p>
+                <ul class="alliant-node-categories">
+                    <li>test 2</li>
+                    <li>test 2</li>
+                    <li>test 2</li>
+                    <li>test 2</li>
+                </ul>
+            </div>-->
+        </div>
+    </aside>
+
+</section>

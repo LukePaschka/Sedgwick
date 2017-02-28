@@ -1,0 +1,144 @@
+<header>
+    <div class="container">
+        <div class="row" style="min-height:30px;">
+            <div class="col-sm-2 col-sm-offset-10 col-md-3 col-md-offset-9 text-right" ng-show="user.Type!='TempCustomer'">
+                <a href="#" ng-click="Logout()" style="padding:5px;" class="text-danger">
+                    <i class="fa fa-power-off text-danger"></i>
+                    <span>{{'Log Out' | r | xlat}}</span>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-collapse">
+                <a class="alliant-logo" ng-click="refreshUser()" href="catalog">
+                    <img ng-src="{{user.Company.LogoUrl}}" />
+                </a>
+            </div>
+            <div class="col-sm-6 col-collapse">
+                <nav>
+                    <div>
+                        <a id="451qa_home_link" href="catalog">{{'Home' | r | xlat}}</a>
+                    </div>
+                    <div>
+                        <a id="451qa_order_link" href="order">{{'My Orders' | r | xlat}}</a>
+                    </div>
+                    <div>
+                        <a id="451qa_cart_link" ng-show="cartCount && user.CurrentOrderID" class="cart" href="cart">Shopping Cart (<span ng-bind="cartCount"></span>)</a>
+                        <a ng-hide="cartCount && user.CurrentOrderID" class="cart">Shopping Cart (0)</a>
+                    </div>
+                    <div>
+                        <a href="contactus">{{'Contact Us' | r | xlat}}</a>
+                    </div>
+                </nav>
+                <form name="productSearchInput" ng-submit="executeSearch()">
+                    <div class="input-group">
+                        <input type="search" class="form-control" placeholder="{{'SEARCH' | r}}" ng-model="productSearchTerm"/>
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary" ng-disabled="productSearchTerm == null || productSearchTerm == ''"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+<!--<header class="header navbar navbar-inner">
+    <nav tolerance='20' offset='200' class="navbar navbar-default navbar-fixed-top" role="navigation" headroom>
+        <section>
+            <div class="container">
+                <ul class="nav navbar-nav pull-left">
+                    <li class="back animated fadeInLeft" ng-class="{'ng-hide': isActive('catalog')}">
+                        <a href back-step class="back">
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
+                    </li>
+                    <li class="products" ng-class="{'active': isInPath('catalog') || isInPath('product') || isInPath('cart/default') || isInPath('search')}">
+                        <a id="451qa_home_link" ng-show="Four51User.isAuthenticated()" href="catalog">
+                            <i class="fa fa-home"></i>
+                            <span class="hidden-xs">{{'Products' | rc | xlat}}</span>
+                        </a>
+                    </li>
+                    <li class="order" ng-class="{'active': isActive('order'), 'active-xs': isActive('favoriteorders')}">
+                        <a id="451qa_order_link" href="order">
+                            <i class="fa fa-clipboard"></i>
+                            <span class="hidden-xs">{{'Orders' | r | xlat}}</span>
+                        </a>
+                    </li>
+                    <li class="report" ng-if="user.Permissions.contains('AdvancedReporting')" ng-class="{'active': isActive('reports')}">
+                        <a id="451qa_order_link" href="reports">
+                            <i class="fa fa-bar-chart-o"></i>
+                            <span class="hidden-xs">{{'Reports' | r | xlat}}</span>
+                        </a>
+                    </li>
+                    <li ng-class="{'active': isActive(['admin', 'addresses', 'address', 'messages', 'message', 'favoriteorders'])}">
+                        <a id="451qa_acct_link" href="admin" class="hidden-md hidden-lg">
+                            <i class="fa fa-cog"></i>
+                            <span class="hidden-xs">{{'Account' | r | xlat}}</span>
+                        </a>
+                    </li>
+                    <li class="dropdown admin-user visible-md visible-lg" ng-class="{'active': isActive(['admin', 'addresses', 'address', 'messages', 'message', 'favoriteorders'])}">
+                        <a id="451qa_acct_link2" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-cog"></i>
+                            <span class="hidden-xs">{{'Account' | r | xlat}}</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li id="451qa_user_link" ng-show="user.Permissions.contains('ViewSelfAdmin')" class="admin">
+                                <a href="admin">
+                                    {{'User Information' | r | xlat}}
+                                </a>
+                            </li>
+                            <li id="451qa_addy_link" ng-show="user.Permissions.contains('CreateShipToAddress') || user.Permissions.contains('CreateBillToAddress')" class="addresses">
+                                <a href="addresses">
+                                    {{'Addresses' | r | xlat}}
+                                </a>
+                            </li>
+                            <li id="451qa_mesg_link" ng-show="user.Permissions.contains('ViewMessaging')" class="messages">
+                                <a href="message">
+                                    {{'Messages' | r | xlat}}
+                                </a>
+                            </li>
+                            <li class="favorites hidden-xs">
+                                <a id="451qa_fave_link" href="favoriteorders">
+                                    {{'Favorites' | r | xlat}}
+                                </a>
+                            </li>
+                            <li id="451qa_mesg_link" ng-show="user.Permissions.contains('ViewContactUs')" class="contactus">
+                                <a href="contactus">
+                                    {{'Contact Us' | r | xlat}}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" neworder ng-if="user.Permissions.contains('MultipleShoppingCart') && currentOrder" class="neworder" ng-click="newOrderLoadingIndicator = true;startNewOrder()">
+                                    {{"Start" | r | xlat}} {{"New" | r | xlat}} {{"Order" | r | xlat}}
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li ng-show="user.Type!='TempCustomer'" class="logout">
+                                <a href="#"  class="451_btn_logout" ng-click="Logout()">
+                                    <i class="fa fa-power-off text-danger"></i>
+                                    <span>{{'Log Out' | r | xlat}}</span>
+                                </a>
+                            </li>
+                            <li ng-if="AppConst.debug">
+                                <a href="#" ng-click="Clear()">
+                                    <i class="fa fa-archive"></i>
+                                    <span class="text-nav">Clear Cache</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav pull-right">
+                    <li class="cart" ng-class="{'active': isActive(['cart', 'checkout'])}">
+                        <a id="451qa_cart_link" ng-show="cartCount && user.CurrentOrderID" class="cart" href="cart">
+                            <span ng-bind="cartCount" class="badge"></span>
+                            <i class="fa fa-shopping-cart"></i>
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </nav>
+</header>-->

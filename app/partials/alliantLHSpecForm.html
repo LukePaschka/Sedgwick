@@ -1,0 +1,92 @@
+<section class="specform-default">
+    <!-- BREADCRUMB!-->
+    <productnav editvariant="true" product="Product" variant="Variant" />
+    <!-- SPEC FORM IMAGE PANEL!-->
+    <div class="col-md-4" ng-hide="!Variant.PreviewUrl">
+        <div class="panel panel-default">
+            <loadingindicator ng-show="loadingImage" />
+            <div class="panel-body">
+                <figure>
+                    <img class="product-image-large img-responsive" ng-src="{{Variant.PreviewUrl}}" imageonload />
+                </figure>
+            </div>
+        </div>
+    </div>
+    <div ng-class="{'col-xs-12': !Variant.PreviewUrl, 'col-md-7 col-md-offset-1': Variant.PreviewUrl }">
+        <!-- SPEC FORM PANEL! --->
+        <form name="AlliantForm">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span ng-show="Variant.PreviewUrl">Edit </span>{{Variant.ExternalID || 'Create New'}}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            <customtextfield customfield="Variant.Specs.V01_GroupName"></customtextfield>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            <customselectionfield customfield="Variant.Specs.LocationSelection"></customselectionfield>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            <div class="view-form-icon" ng-if="Variant.Specs.V02_Office">
+                                <div>
+                                    <label>Office:</label>
+                                    <input placeholder="Office ex. 999 999 9999" type="tel" ng-model="Variant.Specs.V02_Office.Value" maxlength="12" class="form-control" ng-pattern="/\d\d\d\s\d\d\d\s\d\d\d\d/">
+                                    <i class="fa fa-phone"></i>
+                                </div>
+                            </div>
+                            <div class="view-form-icon" ng-if="Variant.Specs.V03_TollFree">
+                                <div>
+                                    <label>Toll Free:</label>
+                                    <input placeholder="Toll Free ex. 999 999 9999" type="tel" ng-model="Variant.Specs.V03_TollFree.Value" maxlength="12" class="form-control" ng-pattern="/\d\d\d\s\d\d\d\s\d\d\d\d/">
+                                    <i class="fa fa-phone"></i>
+                                </div>
+                            </div>
+                            <div class="view-form-icon" ng-if="Variant.Specs.V04_Fax">
+                                <div>
+                                    <label>Fax:</label>
+                                    <input placeholder="Fax  ex. 999 999 9999" type="tel" ng-model="Variant.Specs.V04_Fax.Value" maxlength="12" class="form-control" ng-pattern="/\d\d\d\s\d\d\d\s\d\d\d\d/">
+                                    <i class="fa fa-phone"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button ng-show="Variant.InteropID" ng-disabled="AlliantForm.$invalid" class="btn btn-default" type="button" ng-click="saveasnew(true)"><i ng-show="variantErrors.length > 0 || AlliantForm.$invalid" class="fa fa-warning"> </i>Save As New</button>
+                    <button class="btn btn-primary pull-right" type="submit" ng-click="save(true)" ng-disabled="AlliantForm.$invalid"><i ng-show="variantErrors.length > 0 || AlliantForm.$invalid" class="fa fa-warning"> </i>Save</button>
+                </div>
+            </div>
+        </form>
+
+
+        <div class="navbar-fixed-bottom">
+            <div class="view-error-message" ng-show="showVariantErrors && variantErrors.length">
+                <ul class="alert-warning">
+                    <li class="text-center">
+							<span class="badge">
+								<i class="fa fa-exclamation-circle fa-inverse"></i>
+								{{variantErrors.length}}
+							</span>
+                    </li>
+                    <li class="text-center">
+                        <ul ng-class="{'one': errorSection == 'open', 'two': errorSection == '' }">
+                            <li class="alert-warning" ng-repeat="e in variantErrors">{{e}}</li>
+                        </ul>
+                    </li>
+                    <li class="text-center">
+                        <a ng-show="variantErrors.length > 1">
+                            <i class="fa fa-caret-down" ng-click="errorSection = 'open'" ng-hide="errorSection == 'open'"></i>
+                            <i class="fa fa-caret-up" ng-click="errorSection = ''" ng-show="errorSection == 'open'"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
