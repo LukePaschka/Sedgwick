@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="3ee3f58e-f5ad-4964-85a2-bd493da6f24a" name="Test_Sedgwick" url="http://appFTP.four51.com">
+        <fileTransfer host="appFTP.four51.com" port="21" rootFolder="/Sedgwick_LP" accessType="FTPS">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

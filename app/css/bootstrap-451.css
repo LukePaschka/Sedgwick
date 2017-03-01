@@ -6008,6 +6008,7 @@ img {
 }
 div {
   position: relative;
+  padding-bottom: 5px;
 }
 a {
   cursor: pointer;
@@ -10184,7 +10185,7 @@ table[datepicker] {
   content: "\f1e2";
 }
 body {
-  background-color: #393639;
+  background-color: #fff;
 }
 .btn-default {
   color: #ffffff;
@@ -10292,7 +10293,7 @@ fieldset[disabled] .btn-info.active {
   }
 }
 header .alliant-logo {
-  padding: 15px 0;
+  padding: 0px;
 }
 header nav {
   padding: 0 0 10px;
@@ -10317,17 +10318,17 @@ header nav div {
   flex: 1;
 }
 header nav div:not(:first-of-type) {
-  border-left: 1px solid #ffffff;
+  border-left: 1px solid #000;
 }
 header nav div a {
   font-size: 0.8em;
   display: block;
   text-align: center;
-  color: #FFF;
+  color: #000;
 }
 header nav div a:focus,
 header nav div a:hover {
-  color: #e6e6e6;
+  color: #3B8FCE;
   text-decoration: none;
 }
 @media (max-width: 767px) {
@@ -10544,7 +10545,7 @@ aside.col-sm-4.main-left {
   margin-top: 0;
 }
 .copyright-view p {
-  color: #fff;
+  color: #000;
 }
 .landing-page {
   margin-bottom: 30px;
